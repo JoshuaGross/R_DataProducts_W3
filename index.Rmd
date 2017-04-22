@@ -1,0 +1,37 @@
+---
+title: "Wheat Price vs Wages"
+output: html_document
+---
+
+Displayed is Playfair's 1821 data showing wheat prices and laborers' weekly wages.
+
+Generated April 22, 2017.
+
+```{r}
+library(HistData)
+library(plotly)
+```
+
+## Original graph
+
+Playfair's original graph resembled the following - it "commits the sin" of showing
+two Y variables on different axes.
+
+```{r}
+x <- list(title="Year")
+y <- list(title="Wheat Price vs Wages")
+plot_ly(Wheat) %>% layout(xaxis=x, yaxis=y) %>% add_trace(x = ~Year, y = ~Wheat, mode="lines") %>% add_trace(x = ~Year, y = ~Wages, mode="lines")
+```
+
+## Graphing ratios instead
+The intuition to instead show the ratio of wheat
+prices to wages would not occur for another 50 years. This more
+clearly shows the "units of wheat" one can buy with their wage
+increasing:
+
+```{r}
+Wheat$ratio <- Wheat$Wages / Wheat$Wheat
+x <- list(title="Year")
+y <- list(title="Wheat Price vs Wages")
+plot_ly(Wheat) %>% layout(xaxis=x, yaxis=y) %>% add_trace(x = ~Year, y = ~ratio, mode="lines")
+```
